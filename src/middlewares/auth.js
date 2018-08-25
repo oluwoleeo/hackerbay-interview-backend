@@ -1,3 +1,8 @@
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
 const authenticate = {
   loginAuth: (req, res, next) => {
     if (!req.body.username) {
@@ -16,6 +21,21 @@ const authenticate = {
       return res.status(400).json({ message: 'Password cannot be spaces!' });
     }
     return next();
+  },
+  allowAccess: (req, res, next) => {
+    const token = req.headers['x-access-token'];
+
+    if (!token) {
+      return res.status(401).json({ message: 'Not authorized for this action. Please log in!' });
+    }
+
+    jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
+      if (err) {
+        return res.status(401).json({ message: 'Token invalid/expired! Please log in again!' });
+      }
+
+      return next();
+    });
   },
 };
 export default authenticate;
