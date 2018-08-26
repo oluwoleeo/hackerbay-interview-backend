@@ -11,7 +11,7 @@ describe('App', () => {
   describe("POST request to '/api/v1/login' should", () => {
     it('return 400 status when username is not valid', (done) => {
       chai.request(app)
-        .post('/api/v1/login')
+        .post('/api/v1/user/login')
         .send({ username: '    ' })
         .end((err, res) => {
           expect(res).to.have.status(400);
@@ -21,7 +21,7 @@ describe('App', () => {
 
     it('return 400 status when username is not entered', (done) => {
       chai.request(app)
-        .post('/api/v1/login')
+        .post('/api/v1/user/login')
         .send({ username: null })
         .end((err, res) => {
           expect(res).to.have.status(400);
@@ -31,7 +31,7 @@ describe('App', () => {
 
     it('return 400 status when password is not valid', (done) => {
       chai.request(app)
-        .post('/api/v1/login')
+        .post('/api/v1/user/login')
         .send({ username: 'abc', password: '    ' })
         .end((err, res) => {
           expect(res).to.have.status(400);
@@ -41,7 +41,7 @@ describe('App', () => {
 
     it('return 400 status when password is not entered', (done) => {
       chai.request(app)
-        .post('/api/v1/login')
+        .post('/api/v1/user/login')
         .send({ username: 'abc', password: null })
         .end((err, res) => {
           expect(res).to.have.status(400);
@@ -51,7 +51,7 @@ describe('App', () => {
 
     it('return Invalid username message when username is not valid', (done) => {
       chai.request(app)
-        .post('/api/v1/login')
+        .post('/api/v1/user/login')
         .send({ username: '    ' })
         .end((err, res) => {
           expect(res.body.message).to.equal('Invalid username!');
@@ -61,7 +61,7 @@ describe('App', () => {
 
     it('return Enter Username message when username is not entered', (done) => {
       chai.request(app)
-        .post('/api/v1/login')
+        .post('/api/v1/user/login')
         .send({ username: undefined })
         .end((err, res) => {
           expect(res.body.message).to.equal('Enter username!');
@@ -71,7 +71,7 @@ describe('App', () => {
 
     it('return Invalid password when password is not valid', (done) => {
       chai.request(app)
-        .post('/api/v1/login')
+        .post('/api/v1/user/login')
         .send({ username: 'abc', password: '    ' })
         .end((err, res) => {
           expect(res.body.message).to.equal('Invalid password!');
@@ -81,7 +81,7 @@ describe('App', () => {
 
     it('return Enter password message when password is not entered', (done) => {
       chai.request(app)
-        .post('/api/v1/login')
+        .post('/api/v1/user/login')
         .send({ username: 'abc', password: undefined })
         .end((err, res) => {
           expect(res.body.message).to.equal('Enter password!');
@@ -91,7 +91,7 @@ describe('App', () => {
 
     it('return a token when username and password is entered', (done) => {
       chai.request(app)
-        .post('/api/v1/login')
+        .post('/api/v1/user/login')
         .send({ username: 'abc', password: 'undefined' })
         .end((err, res) => {
           expect(res.body.token.length).to.be.greaterThan(0);
@@ -103,7 +103,7 @@ describe('App', () => {
   describe('call to to allow access middleware should', () => {
     it('return 401 status if there is no access token', (done) => {
       chai.request(app)
-        .patch('/api/v1/patchjson')
+        .patch('/api/v1/user/patchjson')
         .end((err, res) => {
           expect(res).to.have.status(401);
           done();
@@ -112,7 +112,7 @@ describe('App', () => {
 
     it('return Not Authorized message if there is no access token', (done) => {
       chai.request(app)
-        .patch('/api/v1/patchjson')
+        .patch('/api/v1/user/patchjson')
         .end((err, res) => {
           expect(res.body.message).to.equal('Not authorized for this action. Please log in!');
           done();
@@ -121,7 +121,7 @@ describe('App', () => {
 
     it('return 401 status if token is invalid', (done) => {
       chai.request(app)
-        .patch('/api/v1/patchjson')
+        .patch('/api/v1/user/patchjson')
         .set('x-access-token', 'xxx')
         .end((err, res) => {
           expect(res).to.have.status(401);
@@ -131,7 +131,7 @@ describe('App', () => {
 
     it('return token invalid message if token is invalid', (done) => {
       chai.request(app)
-        .patch('/api/v1/patchjson')
+        .patch('/api/v1/user/patchjson')
         .set('x-access-token', 'teatToken')
         .end((err, res) => {
           expect(res.body.message).to.equal('Token invalid/expired! Please log in again!');
