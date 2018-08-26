@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 routes(app);
 
-app.get('/', (req, res) => res.status(200).json({ message: 'Welcome!' }));
+app.get('/', (req, res) => res.status(200).json({ message: 'Welcome!'  }));
 
 app.all('*', (req, res) => res.status(404).json({ message: 'Page not found!' }));
 

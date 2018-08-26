@@ -28,7 +28,8 @@
     "express": "^4.16.3",
     "fast-json-patch": "^2.0.6",
     "jsonwebtoken": "^8.3.0",
-    "morgan": "^1.9.0"
+    "morgan": "^1.9.0",
+    "request": "^2.88.0"
   },
   "devDependencies": {
     "eslint": "^5.4.0",
