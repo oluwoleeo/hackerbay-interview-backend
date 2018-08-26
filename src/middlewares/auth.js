@@ -10,7 +10,7 @@ const authenticate = {
     }
 
     if (req.body.username.trim() === '') {
-      return res.status(400).json({ message: 'Username cannot be spaces!!' });
+      return res.status(400).json({ message: 'Invalid username!' });
     }
 
     if (!req.body.password) {
@@ -18,7 +18,7 @@ const authenticate = {
     }
 
     if (req.body.password.trim() === '') {
-      return res.status(400).json({ message: 'Password cannot be spaces!' });
+      return res.status(400).json({ message: 'Invalid password!' });
     }
     return next();
   },
