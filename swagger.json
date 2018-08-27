@@ -103,6 +103,13 @@
             "description": "The JSON patch object",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "description": "The authorization header for this request",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
