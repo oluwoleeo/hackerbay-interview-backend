@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import { describe, it } from 'mocha';
@@ -151,14 +153,107 @@ describe('App', () => {
     });
   });
 
-  describe('call to to authorization middleware should', () => {
-    it('return 400 status if JSON patch object is not valid', (done) => {
+  describe("PATCH request to '/api/v1/user/patchjson' should", () => {
+    it('return 400 status if JSON object is not valid', (done) => {
       chai.request(app)
         .patch('/api/v1/user/patchjson')
+        .set('x-access-token', teatToken)
+        .send({
+          jsontopatch: {'firstName': "Albert", "contactDetails": { "phoneNumbers": [] } },
+          jsonpatch: [{ "op": "replace", "path": "/firstName", "value": "Joachim" },
+            { "op": "add", "path": "/lastName", "value": "Wester" },
+            { "op": "add", "path": "/contactDetails/phoneNumbers/0", "value": { "number": "555-123" }  }
+          ]
+        })
         .end((err, res) => {
-          expect(res).to.have.status(401);
+          expect(res).to.have.status(400);
           done();
         });
     });
+
+    it('return 400 status if JSON patch object is not valid', (done) => {
+      chai.request(app)
+        .patch('/api/v1/user/patchjson')
+        .set('x-access-token', teatToken)
+        .send({
+          jsontopatch: {"firstName": "Albert", "contactDetails": { "phoneNumbers": [] } },
+          jsonpatch: [{ 'op': "replace", "path": "/firstName", "value": "Joachim" },
+            { "op": "add", "path": "/lastName", "value": "Wester" },
+            { "op": "add", "path": "/contactDetails/phoneNumbers/0", "value": { "number": "555-123" }  }
+          ]
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          done();
+        });
+    });
+
+    it('return JSON object invalid message if JSON object is invalid', (done) => {
+      chai.request(app)
+        .patch('/api/v1/user/patchjson')
+        .set('x-access-token', teatToken)
+        .send({
+          jsontopatch: {'firstName': "Albert", "contactDetails": { "phoneNumbers": [] } },
+          jsonpatch: [{ "op": "replace", "path": "/firstName", "value": "Joachim" },
+            { "op": "add", "path": "/lastName", "value": "Wester" },
+            { "op": "add", "path": "/contactDetails/phoneNumbers/0", "value": { "number": "555-123" }  }
+          ]
+        })
+        .end((err, res) => {
+          expect(res.body.error).to.equal('JSON object to be updated is invalid');
+          done();
+        });
+    });
+
+    /* it('return JSON patch object invalid message if JSON patch object is invalid', (done) => {
+      chai.request(app)
+        .patch('/api/v1/user/patchjson')
+        .set('x-access-token', teatToken)
+        .send({
+          jsontopatch: {"firstName": "Albert", "contactDetails": { "phoneNumbers": [] } },
+          jsonpatch: [{ 'op': "replace", "path": "/firstName", "value": "Joachim" },
+            { "op": "add", "path": "/lastName", "value": "Wester" },
+            { "op": "add", "path": "/contactDetails/phoneNumbers/0", "value": { "number": "555-123" } }
+          ]
+        })
+        .end((err, res) => {
+          expect(res.body.error).to.equal('JSON patch object for update is invalid');
+          done();
+        });
+    });
+
+    it('return 200 status if JSON object and patch object is valid', (done) => {
+      chai.request(app)
+        .patch('/api/v1/user/patchjson')
+        .set('x-access-token', teatToken)
+        .send({
+          jsontopatch: {"firstName": "Albert", "contactDetails": { "phoneNumbers": [] } },
+          jsonpatch: [{ "op": "replace", "path": "/firstName", "value": "Joachim" },
+            { "op": "add", "path": "/lastName", "value": "Wester" },
+            { "op": "add", "path": "/contactDetails/phoneNumbers/0", "value": { "number": "555-123" }  }
+          ]
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          done();
+        });
+    });
+
+    it('return updated JSON object if JSON object and patch object is valid', (done) => {
+      chai.request(app)
+        .patch('/api/v1/user/patchjson')
+        .set('x-access-token', teatToken)
+        .send({
+          jsontopatch: {"firstName": "Albert", "contactDetails": { "phoneNumbers": [] } },
+          jsonpatch: [{ "op": "replace", "path": "/firstName", "value": "Joachim" },
+            { "op": "add", "path": "/lastName", "value": "Wester" },
+            { "op": "add", "path": "/contactDetails/phoneNumbers/0", "value": { "number": "555-123" }  }
+          ]
+        })
+        .end((err, res) => {
+          expect(res.body.newDocument).to.be.json();
+          done();
+        });
+    }); */
   });
 });
