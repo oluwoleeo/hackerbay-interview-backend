@@ -5,7 +5,7 @@ import resizeimg from '../middlewares/resize';
 const router = (app) => {
   app.post('/api/v1/login', auth.loginAuth, controllers.user.login);
   app.patch('/api/v1/patchjson', auth.allowAccess, controllers.user.patchjson);
-  app.post('/api/v1/resize', auth.allowAccess, resizeimg);
+  app.post('/api/v1/user/generatethumbnail', auth.allowAccess, resizeimg);
 };
 
 export default router;
