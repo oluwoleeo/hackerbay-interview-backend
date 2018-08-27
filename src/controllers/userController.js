@@ -17,10 +17,22 @@ const userAction = {
       .catch(err => res.status(500).json({ err }));
   },
   patchjson: (req, res) => {
-    console.log(req.body);
-    console.log(req.body.json);
-    return res.status(200).json({ message: 'done' });
-    // return res.status(200).json(req.body.jsonPatch);
+    try {
+      JSON.parse(req.body.jsontopatch);
+    } catch (error) {
+      return res.status(400).json({ error: 'JSON object to be updated is invalid' });
+    }
+
+    try {
+      JSON.parse(req.body.jsonpatch);
+    } catch (error) {
+      return res.status(400).json({ error: 'JSON patch object for update is invalid' });
+    }
+
+    const document = JSON.parse(req.body.jsontopatch);
+    const patch = JSON.parse(req.body.jsonpatch);
+    const { newDocument } = fjp.applyPatch(document, patch);
+    return res.status(200).json({ newDocument });
   },
 };
 export default userAction;
