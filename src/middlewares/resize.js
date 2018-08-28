@@ -1,6 +1,5 @@
 import jimp from 'jimp';
 import path from 'path';
-import fs from 'fs';
 
 const resize = (req, res) => {
   const { url, format } = req.body;
@@ -30,9 +29,7 @@ const resize = (req, res) => {
       return res.status(200).sendFile(imgPath);
       // return res.status(200).download(imgPath, `resized thumbnail_${imgnam}.${format}`);
     })
-    .catch((err) => {
-      return res.status(400).json({ error: 'The URL specified is not an image' });
-    });
+    .catch(err => res.status(400).json({ error: 'The URL specified is not an image' }));
 
   /* request.get(url)
     .pipe(fs.createWriteStream(`image_${imgnam}.${req.body.format}`))
