@@ -205,7 +205,68 @@ describe('App', () => {
         });
     });
 
-    /* it('return JSON patch object invalid message if JSON patch object is invalid', (done) => {
+    it('return 400 status if JSON object is empty', (done) => {
+      chai.request(app)
+        .patch('/api/v1/user/patchjson')
+        .set('x-access-token', teatToken)
+        .send({
+          jsontopatch: undefined,
+          jsonpatch: [{ 'op': "replace", "path": "/firstName", "value": "Joachim" },
+            { "op": "add", "path": "/lastName", "value": "Wester" },
+            { "op": "add", "path": "/contactDetails/phoneNumbers/0", "value": { "number": "555-123" }  }
+          ]
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          done();
+        });
+    });
+
+    it('return JSON object invalid message if JSON object is empty', (done) => {
+      chai.request(app)
+        .patch('/api/v1/user/patchjson')
+        .set('x-access-token', teatToken)
+        .send({
+          jsontopatch: undefined,
+          jsonpatch: [{ "op": "replace", "path": "/firstName", "value": "Joachim" },
+            { "op": "add", "path": "/lastName", "value": "Wester" },
+            { "op": "add", "path": "/contactDetails/phoneNumbers/0", "value": { "number": "555-123" }  }
+          ]
+        })
+        .end((err, res) => {
+          expect(res.body.error).to.equal('JSON object to be updated is invalid');
+          done();
+        });
+    });
+
+    it('return 400 status if JSON patch object is empty', (done) => {
+      chai.request(app)
+        .patch('/api/v1/user/patchjson')
+        .set('x-access-token', teatToken)
+        .send({
+          jsontopatch: {"firstName": "Albert", "contactDetails": { "phoneNumbers": [] } },
+          jsonpatch: undefined
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          done();
+        });
+    });
+
+    /* it('return JSON patch object invalid message if JSON patch object is empty', (done) => {
+      chai.request(app)
+        .patch('/api/v1/user/patchjson')
+        .set('x-access-token', teatToken)
+        .send({
+          jsontopatch: {"firstName": "Albert", "contactDetails": { "phoneNumbers": [] } },
+          jsonpatch: undefined
+        })
+        .end((err, res) => {
+          expect(res.body.error).to.equal('JSON patch object for update is invalid');
+          done();
+        });
+    });
+    it('return JSON patch object invalid message if JSON patch object is invalid', (done) => {
       chai.request(app)
         .patch('/api/v1/user/patchjson')
         .set('x-access-token', teatToken)
@@ -255,5 +316,63 @@ describe('App', () => {
           done();
         });
     }); */
+  });
+
+  describe("POST request to '/api/v1/user/generatethumbnail' should", () => {
+    it('return 400 status if image format is not supported', (done) => {
+      chai.request(app)
+        .post('/api/v1/user/generatethumbnail')
+        .set('x-access-token', teatToken)
+        .send({
+          url: 'http://www.publicengagement.ac.uk/sites/default/files/styles/content_width/public/hero/large-crowd-of-people-small.jpg?itok=bubwNIpy',
+          format: 'jpge'
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          done();
+        });
+    });
+
+    it('return format not supported message if image format is invalid/not supported', (done) => {
+      chai.request(app)
+        .post('/api/v1/user/generatethumbnail')
+        .set('x-access-token', teatToken)
+        .send({
+          url: 'http://www.publicengagement.ac.uk/sites/default/files/styles/content_width/public/hero/large-crowd-of-people-small.jpg?itok=bubwNIpy',
+          format: 'jpge'
+        })
+        .end((err, res) => {
+          expect(res.body.error).to.equal('Format not supported');
+          done();
+        });
+    });
+
+    it('return 400 status if URL is not valid image URL', (done) => {
+      chai.request(app)
+        .post('/api/v1/user/generatethumbnail')
+        .set('x-access-token', teatToken)
+        .send({
+          url: 'http://www.publicengagement.ac.uk/sitesnvnvnv/default/files/styles/content_width/public/hero/large-crowd-of-people-small.jpg?itok=bubwNIpy',
+          format: 'jpg'
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          done();
+        });
+    });
+
+    it('return URL not an image message if image URL is invalid', (done) => {
+      chai.request(app)
+        .post('/api/v1/user/generatethumbnail')
+        .set('x-access-token', teatToken)
+        .send({
+          url: 'http://www.publicengagement.ac.uk/sitesnvnvnv/default/files/styles/content_width/public/hero/large-crowd-of-people-small.jpg?itok=bubwNIpy',
+          format: 'jpg'
+        })
+        .end((err, res) => {
+          expect(res.body.error).to.equal('The URL specified is not an image');
+          done();
+        });
+    });
   });
 });

@@ -133,9 +133,73 @@
           }
         }
       }
+    },
+    "/user/generatethumbnail": {
+      "post": {
+        "tags": [
+          "user, image, thumbnail, resize"
+        ],
+        "summary": null,
+        "description": "Takes an image URL and the desired image format for the thumbnail that will be generated",
+        "operationId": "resize",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "image/**"
+        ],
+        "parameters": [
+          {
+            "name": "url",
+            "in": "formData",
+            "description": "The URL of the image",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "format",
+            "in": "formData",
+            "description": "The desired image format",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "description": "The authorization header for this request",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": "image/**",
+            "schema": {
+              "$ref": "#/definitions/Image"
+            }
+          },
+          "400": {
+            "description": "Invalid image URL or format provided",
+            "schema": {
+              "$ref": "#/definitions/PatchFailureApiResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized access",
+            "schema": {
+              "$ref": "#/definitions/LoginFailureApiResponse"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
+    "Image": {
+      "type": "string",
+      "format": "binary"
+    },
     "LoginSuccessApiResponse": {
       "type": "object",
       "properties": {
@@ -164,7 +228,7 @@
     "NewDocument": {
       "type": "object",
       "xml": {
-        "name": "LoginSuccessApiResponse"
+        "name": "NewDocument"
       }
     },
     "PatchFailureApiResponse": {
