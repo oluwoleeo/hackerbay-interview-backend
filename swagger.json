@@ -174,7 +174,6 @@
         "responses": {
           "200": {
             "description": "successful operation",
-            "content": "image/**",
             "schema": {
               "$ref": "#/definitions/Image"
             }
@@ -189,6 +188,12 @@
             "description": "Unauthorized access",
             "schema": {
               "$ref": "#/definitions/LoginFailureApiResponse"
+            }
+          },
+          "500": {
+            "description": "Server error occured",
+            "schema": {
+              "$ref": "#/definitions/PatchFailureApiResponse"
             }
           }
         }
