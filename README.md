@@ -18,11 +18,17 @@ Do the following:
 
 ##  API endpoints
 The base URL for the endpoints is *http://localhost:8080/api/vl/user*
-    +   **/login**
-        This endpoint takes a username and password pair and return a JSON object containing the user's unique token
-    +   **/patchjson**
-        This endpoint takes a JSON object and JSON patch object and returns an updated JSON object to the user
-    +   **/generatethumbnail
-        This endpoint takes a valid image URL and the desired image format and responds with a thumbnail of the image to the user.
+
++   **/login**
+    This endpoint takes a username and password pair and returns a JSON object containing the user's unique token
+
+
++   **/patchjson**
+    This endpoint takes a JSON object and JSON patch object and returns an updated JSON object to the user
+
+
++   **/generatethumbnail
+    This endpoint takes a valid image URL and the desired image format and responds with a thumbnail of the image to the user.
+    
 
 The Swagger API documentation is available on http://localhost:8080/api-docs
