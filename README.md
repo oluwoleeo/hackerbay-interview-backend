@@ -27,7 +27,7 @@ The base URL for the endpoints is *http://localhost:8080/api/vl/user*
     This endpoint takes a JSON object and JSON patch object and returns an updated JSON object to the user
 
 
-+   **/generatethumbnail
++   **/generatethumbnail**
     This endpoint takes a valid image URL and the desired image format and responds with a thumbnail of the image to the user.
 
 
