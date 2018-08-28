@@ -34,25 +34,12 @@ const resize = (req, res) => {
     })
     .catch((error) => {
       if (fs.existsSync(imgPath)) {
-        console.log(imgPath);
-        console.log(error);
-        console.log(`Code is ${error.code}`);
-        console.log(`Message is ${error.message}`);
         return res.status(500).json({ error: 'Error occured while sending image to user' });
       }
 
       if (error.code === 'ENOTFOUND' || error.code === 'ECONNRESET' || error.code === 'ETIMEDOUT') {
-        console.log(imgPath);
-        console.log(error);
-        console.log(`Code is ${error.code}`);
-        console.log(`Message is ${error.message}`);
         return res.status(500).json({ error: 'Network connection error. Unable to access image URL' });
       }
-
-      console.log(imgPath);
-      console.log(error);
-      console.log(`Code is ${error.code}`);
-      console.log(`Message is ${error.message}`);
 
       return res.status(400).json({ error: 'The URL specified is not an image' });
     });
