@@ -1,4 +1,4 @@
-#   hackerbay-interview-backend-task
+#   hackerbay-interview-backend
 A Express/Node backend microservice with the following features:
 
 +   Authentication
@@ -29,6 +29,6 @@ The base URL for the endpoints is *http://localhost:8080/api/vl/user*
 
 +   **/generatethumbnail
     This endpoint takes a valid image URL and the desired image format and responds with a thumbnail of the image to the user.
-    
+
 
 The Swagger API documentation is available on http://localhost:8080/api-docs
