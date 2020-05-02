@@ -12,12 +12,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Polymathwole/hackerbay-interview-backend.git"
+    "url": "git+https://github.com/Oluwoleeo/hackerbay-interview-backend.git"
   },
   "bugs": {
-    "url": "https://github.com/Polymathwole/hackerbay-interview-backend/issues"
+    "url": "https://github.com/Oluwoleeo/hackerbay-interview-backend/issues"
   },
-  "homepage": "https://github.com/Polymathwole/hackerbay-interview-backend#readme",
+  "homepage": "https://github.com/Oluwoleeo/hackerbay-interview-backend#readme",
   "author": "Oluwaremi Oluwole",
   "license": "ISC",
   "dependencies": {
