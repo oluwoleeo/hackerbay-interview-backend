@@ -20,6 +20,6 @@ app.get('/', (req, res) => res.status(200).json({ message: 'Welcome!'  }));
 
 app.all('*', (req, res) => res.status(404).json({ message: 'Page not found!' }));
 
-app.listen(app.get('port')); // () => console.log(`App listening on ${app.get('port')}`);
+app.listen(app.get('port'), () => console.log(`App listening on ${app.get('port')}`));
 
 export default app;

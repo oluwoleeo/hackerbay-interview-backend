@@ -27,7 +27,6 @@ const resize = (req, res) => {
         .write(`image_${imgnam}_resized.${format}`);
 
       imgPath = path.join(process.cwd(), `image_${imgnam}_resized.${format}`);
-      console.log(imgPath);
       res.set('Content-Type', `image/${format}`);
       return res.status(200).sendFile(imgPath);
       // return res.status(200).download(imgPath, `resized thumbnail_${imgnam}.${format}`);
