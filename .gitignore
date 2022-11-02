@@ -3,3 +3,12 @@ dist
 .env
 coverage
 npm-debug.log
+package-lock.json
+
+# images
+*.jpeg
+*.jpg
+*.png
+*.gif
+*.bmp
+*.tiff
